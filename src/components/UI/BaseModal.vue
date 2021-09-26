@@ -35,28 +35,27 @@ export default {
  z-index: 10;
 }
 .modal {
-    max-width: 600px;
-    width: 90%;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    z-index: 100;
-    background-color: #fff;
-    border-radius: 14px;
-    padding: 20px 40px;
+ max-width: 600px;
+ width: 90%;
+ position: fixed;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%);
+ z-index: 100;
+ background-color: #fff;
+ border-radius: 14px;
+ padding: 20px 40px;
 }
 .modal-heading {
-    margin-bottom: 10px;
+ margin-bottom: 10px;
 }
 .modal-heading span {
-    color: tomato;
+ color: tomato;
 }
 .modal-body {
-    margin-bottom: 20px;
+ margin-bottom: 20px;
 }
 
-@media(min-width:320px) {
-
+@media (min-width: 320px) {
 }
 </style>

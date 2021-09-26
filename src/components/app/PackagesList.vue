@@ -2,7 +2,14 @@
  <div class="packages-wrapper">
   <v-list>
    <base-pagination>
-    <li v-for="page in pages" :key="page" @click="changePage(page)">{{ page }}</li>
+    <li
+     v-for="page in pages"
+     :key="page"
+     @click="changePage(page)"
+     :class="(currentPage === page) ? 'active' : ' '"
+    >
+     {{ page }}
+    </li>
    </base-pagination>
    <package-item
     v-for="item in statsList"
@@ -38,12 +45,11 @@
        <a :href="link" target="_blank">{{ link }}</a>
       </div>
      </div>
-    </div>  
-     <div class="package-description">
-      Desc: <br class="d-block" />
-      {{ description }}
-     </div>
-    
+    </div>
+    <div class="package-description">
+     Desc: <br class="d-block" />
+     {{ description }}
+    </div>
    </template>
   </base-modal>
   <base-modal :mode="'error'" v-if="isError" :close="closeModal">
@@ -79,17 +85,24 @@ export default {
    date: null,
    pages: [],
    statsList: [],
-   isActive: false
+   isActive: false,
+   currentPage: 1,
   };
  },
  props: ["getStats"],
  emits: ["renderPackage"],
- created() {
- },
  mounted() {
-    this.getPackegesStats();
-    this.changePage(1)
-      
+  this.getPackegesStats();
+  this.changePage(1);
+ },
+ watch: {
+   currentPage: function(newPage) {
+     fetch(
+       `https://data.jsdelivr.com/v1/stats/packages/week?limit=10&page=${newPage}`
+     )
+      .then((response) => response.json())
+      .then((data) => this.renderStatsList(data));
+   }
  },
  methods: {
   renderStatsList(list) {
@@ -100,7 +113,7 @@ export default {
    fetch(`https://data.jsdelivr.com/v1/stats/packages/week`)
     .then((response) => response.json())
     .then((data) => {
-      this.renderStatsList(data);
+     this.renderStatsList(data);
     });
   },
   renderPackageInfo(packageName, type) {
@@ -209,7 +222,6 @@ export default {
    )
     .then((response) => response.json())
     .then((data) => this.renderStatsList(data));
-    
   },
  },
 };

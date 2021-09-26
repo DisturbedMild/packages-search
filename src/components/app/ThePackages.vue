@@ -1,10 +1,7 @@
 <template>
  <v-main>
   <v-container>
-   <packages-search
-    :storeGitPackage="storeGitPackage"
-    :storeNpmPackage="storeNpmPackage"
-   ></packages-search>
+   <packages-search></packages-search>
    <searched-package></searched-package>
    <packages-list></packages-list>
   </v-container>
@@ -20,36 +17,6 @@ export default {
   PackagesSearch,
   PackagesList,
   SearchedPackage,
- },
- data() {
-  return {};
- },
- methods: {
-  storeGitPackage(data) {
-   const { full_name, created_at, description, html_url } = data;
-   this.$store.commit("updatePackage", {
-    name: full_name,
-    date: created_at,
-    description,
-    link: html_url,
-   });
-  },
-  storeNpmPackage(data) {
-   const {
-    name,
-    version,
-    author,
-    description,
-    links,
-   } = data.collected.metadata;
-   this.$store.commit("updatePackage", {
-    name: name,
-    version: version,
-    author: author,
-    description,
-    links,
-   });
-  },
- },
+ }
 };
 </script>

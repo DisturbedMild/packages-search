@@ -19,6 +19,6 @@ button {
  align-items: center;
 }
 button:hover {
-    background: rgb(48, 48, 220);
+ background: rgb(48, 48, 220);
 }
 </style>

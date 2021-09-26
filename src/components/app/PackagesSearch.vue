@@ -21,7 +21,6 @@ export default {
    statsList: [],
   };
  },
- props: ["storeGitPackage", "storeNpmPackage"],
  methods: {
   debounceInput: debounce(function(e) {
    if (!e.target.value) {
@@ -30,25 +29,45 @@ export default {
    this.getPackeges(e.target.value);
   }, 500),
   getPackeges(packageName) {
+   const urls = [
+    "https://api.npms.io/v2/package/",
+    "https://api.github.com/repos/",
+   ];
+
+   Promise.allSettled(urls.map((url) => fetch(`${url}${packageName}`))).then(
+    (resulsts) =>
+     resulsts.forEach((result) => {
+      if (
+       result.status === "fulfilled" &&
+       result.value.url === `${urls[0]}${packageName}`
+      ) {
+       this.getNpmPackage(packageName);
+      } else if (
+       result.status === "fulfilled" &&
+       result.value.url === `${urls[1]}${packageName}`
+      ) {
+       this.getGitPackage(packageName);
+      }
+     })
+   );
+  },
+  getNpmPackage(packageName) {
    fetch(`https://api.npms.io/v2/package/${packageName}`)
-    .then((response) => {
-     if (response.ok) {
-      return response.json();
-     } else {
-      return fetch(`https://api.github.com/repos/${packageName}`)
-       .then((response) => response.json())
-       .then((data) => {
-        this.storeGitPackage(data);
-        return;
-       })
-       .catch((err) => console.error("Err: ", err));
-     }
-    })
-    .then((data) => {
-     this.storeNpmPackage(data);
-     return;
-    })
+    .then((response) => response.json())
+    .then((data) => this.storeNpmPackage(data))
     .catch((err) => console.error("Err: ", err));
+  },
+  getGitPackage(packageName) {
+   fetch(`https://api.github.com/repos/${packageName}`)
+    .then((response) => response.json())
+    .then((data) => this.storeGitPackage(data))
+    .catch((err) => console.error("Err: ", err));
+  },
+  storeGitPackage(data) {
+   this.$store.commit("updatePackage", data);
+  },
+  storeNpmPackage(data) {
+   this.$store.commit("updatePackage", data.collected.metadata);
   },
  },
 };

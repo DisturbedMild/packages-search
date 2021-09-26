@@ -2,7 +2,7 @@
  <v-app>
   <the-header></the-header>
   <the-packages></the-packages>
-   <the-footer></the-footer>
+  <the-footer></the-footer>
  </v-app>
 </template>
 
@@ -19,9 +19,5 @@ export default {
   TheFooter,
   ThePackages,
  },
-
- data: () => ({
-  //
- }),
 };
 </script>

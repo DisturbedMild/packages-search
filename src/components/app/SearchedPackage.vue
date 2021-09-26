@@ -2,11 +2,8 @@
  <div class="result-wrapper">
   <h3 class="result-header">{{ this.$store.state.package.name }}</h3>
   <div class="result-item">
-   <div class="result-name" v-if="this.$store.state.package.date">
+   <div class="result-date" v-if="this.$store.state.package.date">
     {{ this.$store.state.package.date }}
-   </div>
-   <div class="result-author" v-if="this.$store.state.package.author">
-    {{ this.$store.state.package.author }}
    </div>
    <div class="result-version" v-if="this.$store.state.package.version">
     {{ this.$store.state.package.version }}
